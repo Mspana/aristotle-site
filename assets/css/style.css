@@ -41,7 +41,7 @@ body {
 }
 
 .logo {
-  width: 180px;
+  width: 400px;
   height: auto;
   margin-bottom: 2rem;
 }
@@ -312,7 +312,7 @@ body {
   }
 
   .logo {
-    width: 140px;
+    width: 280px;
   }
 
   .tagline {
