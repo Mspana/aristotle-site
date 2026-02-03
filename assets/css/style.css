@@ -98,7 +98,8 @@ body {
 /* Values Section (3-column) */
 .values {
   padding: 6rem 2rem;
-  background: var(--bg-section);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .values-grid {
