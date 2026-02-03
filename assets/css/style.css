@@ -102,6 +102,14 @@ body {
   margin: 0 auto;
 }
 
+.values h2 {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 2rem;
+  color: var(--cream);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
 .values-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
