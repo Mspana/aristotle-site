@@ -1,0 +1,43 @@
+---
+layout: default
+title: Aristotle
+---
+
+<section class="hero">
+  <img src="{{ '/assets/images/logo.png' | relative_url }}" alt="Aristotle" class="logo">
+  <p class="tagline">[Insert tagline here]</p>
+</section>
+
+<section class="about">
+  <p class="emphasis">It's Cursor for Game Dev.</p>
+
+  <p>Aristotle is for developers who don't want integration hell to stop their creativity. So they spend 3 minutes squashing bugs, not 3 hours. It's for devs who want to be surprised by how useful their Game Engine is. It's for devs who want less time fighting their code, and more time making their game.</p>
+
+  <p class="emphasis">It's for everyone.</p>
+
+  <p class="no-ai">And no AI assets. Ever.</p>
+</section>
+
+<section class="blog-preview">
+  <h2>Latest Updates</h2>
+  <div class="posts">
+    {% for post in site.posts limit:3 %}
+    <div class="post-item">
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
+    </div>
+    {% endfor %}
+    {% if site.posts.size == 0 %}
+    <p style="color: var(--text-secondary); text-align: center;">No posts yet. Check back soon.</p>
+    {% endif %}
+  </div>
+  {% if site.posts.size > 3 %}
+  <div class="all-posts">
+    <a href="{{ '/blog' | relative_url }}">View all posts &rarr;</a>
+  </div>
+  {% endif %}
+</section>
+
+<footer class="site-footer">
+  <a href="https://github.com/mclassen/aristotle" target="_blank" rel="noopener">GitHub</a>
+</footer>

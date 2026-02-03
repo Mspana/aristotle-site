@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} - Aristotle</title>
+  <meta name="description" content="{{ page.excerpt | strip_html | truncate: 160 }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="post-nav">
+    <a href="{{ '/' | relative_url }}" class="back-link">&larr; Aristotle</a>
+    <a href="{{ '/blog' | relative_url }}" class="blog-link">Blog</a>
+  </nav>
+
+  <article class="post">
+    <header class="post-header">
+      <h1>{{ page.title }}</h1>
+      <time datetime="{{ page.date | date_to_xmlschema }}">
+        {{ page.date | date: "%B %d, %Y" }}
+      </time>
+    </header>
+
+    <div class="post-content">
+      {{ content }}
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <a href="https://github.com/mclassen/aristotle" target="_blank" rel="noopener">GitHub</a>
+  </footer>
+</body>
+</html>
