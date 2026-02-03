@@ -95,6 +95,53 @@ body {
   border-top: 1px solid var(--brown-light);
 }
 
+/* Values Section (3-column) */
+.values {
+  padding: 6rem 2rem;
+  background: var(--bg-section);
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.value-card {
+  text-align: center;
+  padding: 2rem;
+}
+
+.value-card h3 {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 1.75rem;
+  color: var(--cream);
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+}
+
+.value-card p {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.value-card strong {
+  color: var(--cream);
+  display: block;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 800px) {
+  .values-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
 /* Blog Preview Section */
 .blog-preview {
   padding: 4rem 2rem;
