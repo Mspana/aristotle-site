@@ -25,7 +25,10 @@ Please make me Wardogs/Battlefield
   </div>
   <p class="game-meta">
     <span>Iron Front &middot; Operation Dustline &middot; keyboard and mouse</span>
-    <a href="{{ '/games/ironfront/' | relative_url }}" target="_blank" rel="noopener">Open in a new tab</a>
+    <span class="game-links">
+      <a href="{{ '/assets/timelapses/ironfront.mp4' | relative_url }}">Watch it being built (3 min)</a>
+      <a href="{{ '/games/ironfront/' | relative_url }}" target="_blank" rel="noopener">Open game in new tab</a>
+    </span>
   </p>
 </div>
 
@@ -44,7 +47,10 @@ Please make me Rocket League
   </div>
   <p class="game-meta">
     <span>Neon League &middot; Car Soccer &middot; keyboard</span>
-    <a href="{{ '/games/neonleague/' | relative_url }}" target="_blank" rel="noopener">Open in a new tab</a>
+    <span class="game-links">
+      <a href="{{ '/assets/timelapses/neonleague.mp4' | relative_url }}">Watch it being built (3 min)</a>
+      <a href="{{ '/games/neonleague/' | relative_url }}" target="_blank" rel="noopener">Open game in new tab</a>
+    </span>
   </p>
 </div>
 
@@ -63,7 +69,10 @@ Please make me Runescape
   </div>
   <p class="game-meta">
     <span>Willowfell &middot; An Old-World Adventure &middot; keyboard and mouse</span>
-    <a href="{{ '/games/willowfell/' | relative_url }}" target="_blank" rel="noopener">Open in a new tab</a>
+    <span class="game-links">
+      <a href="{{ '/assets/timelapses/willowfell.mp4' | relative_url }}">Watch it being built (2 min)</a>
+      <a href="{{ '/games/willowfell/' | relative_url }}" target="_blank" rel="noopener">Open game in new tab</a>
+    </span>
   </p>
 </div>
 

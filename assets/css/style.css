@@ -523,3 +523,10 @@ body {
     white-space: normal;
   }
 }
+
+/* Timelapse link, beside the game's own link */
+.game-links {
+  display: flex;
+  gap: 1rem;
+  white-space: nowrap;
+}
