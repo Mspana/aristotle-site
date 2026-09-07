@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071214">
+  <meta name="description" content="Enter the Rift in a playable League-inspired solo MOBA. Command your champion, lead your minions, and destroy the enemy Nexus.">
+  <title>Rift Skirmish — A League-inspired game</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="sword" viewBox="0 0 24 24"><path d="m5 19 3-3m-4-2 6 6M8 16l9-12 4-1-1 4-12 9Z"/></symbol>
+    <symbol id="shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6l-8-3Z"/><path d="M12 7v9m-4-5h8"/></symbol>
+    <symbol id="dash" viewBox="0 0 24 24"><path d="m13 3-5 9h5l-2 9 9-13h-6l3-5M3 8h4M2 13h3m-1 5h3"/></symbol>
+    <symbol id="storm" viewBox="0 0 24 24"><path d="m12 2 2 7 7-3-4 6 5 4-8-1-2 7-2-7-8 1 5-4-4-6 7 3 2-7Z"/></symbol>
+    <symbol id="heal" viewBox="0 0 24 24"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3Z"/></symbol>
+    <symbol id="flash" viewBox="0 0 24 24"><path d="m14 2-9 12h7l-2 8 10-13h-8l2-7Z"/></symbol>
+    <symbol id="bag" viewBox="0 0 24 24"><path d="M5 8h14l2 13H3L5 8Zm3 0V6a4 4 0 0 1 8 0v2"/></symbol>
+    <symbol id="sound" viewBox="0 0 24 24"><path d="m11 4-6 5H2v6h3l6 5V4Zm4 4a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="pause" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16"/></symbol>
+    <symbol id="help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 5m0 3h.01"/></symbol>
+    <symbol id="diamond" viewBox="0 0 24 24"><path d="m12 2 7 10-7 10-7-10 7-10Zm0 0v20M5 12h14"/></symbol>
+    <symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  </defs></svg>
+  <main class="game-shell">
+    <header class="topbar">
+      <a class="wordmark" href="./" aria-label="Rift Skirmish home"><svg><use href="#diamond"/></svg><span>RIFT <b>SKIRMISH</b></span></a>
+      <div class="match-mode">SOLO <span>/</span> THE EMERALD RIFT</div>
+      <div class="scoreboard" aria-label="Team score"><span class="blue-score" id="blue-score">0</span><svg><use href="#sword"/></svg><span class="red-score" id="red-score">0</span><span class="score-divider"></span><time id="timer">00:00</time></div>
+      <nav class="top-actions" aria-label="Game settings">
+        <button class="icon-button" id="sound-button" aria-label="Turn sound on" title="Sound"><svg><use href="#sound"/></svg><span class="mute-mark"></span></button>
+        <button class="icon-button" id="help-button" aria-label="How to play" title="How to play"><svg><use href="#help"/></svg></button>
+        <button class="icon-button" id="pause-button" aria-label="Pause game" title="Pause · Escape"><svg><use href="#pause"/></svg></button>
+      </nav>
+    </header>
+
+    <section class="battlefield" aria-label="Battlefield">
+      <canvas id="battle-canvas" tabindex="0" aria-label="Game battlefield. Right-click or tap to move. Use arrow keys to move and Q, W, E, R to cast abilities."></canvas>
+      <div class="objective"><span class="objective-mark"></span><div><span class="eyebrow">YOUR OBJECTIVE</span><strong id="objective-text">Destroy the enemy turret</strong></div></div>
+      <div id="announcement" class="announcement" aria-live="polite"></div>
+      <div id="toast" class="toast" role="status"></div>
+      <div id="respawn" class="respawn hidden"><span>YOU HAVE BEEN SLAIN</span><strong id="respawn-count">8</strong><small>Returning to the fountain</small></div>
+      <div id="recall-progress" class="recall-progress hidden"><span>RECALLING</span><div><i></i></div></div>
+      <div class="controls-hint" id="controls-hint"><span class="desktop-hint">Right-click to move <i>·</i> Click enemies to attack <i>·</i> Q W E R to cast</span><span class="mobile-hint">Tap to move or attack · Tap an ability to cast</span></div>
+      <div class="minimap-wrap"><canvas id="minimap" width="240" height="150" aria-label="Minimap. Click to move to a location."></canvas><div class="minimap-label">THE EMERALD RIFT</div></div>
+      <div class="touch-stick hidden" id="touch-stick"><div></div></div>
+      <div class="vignette"></div>
+    </section>
+
+    <footer class="hud">
+      <section class="champion-panel" aria-label="Champion status">
+        <div class="portrait"><div class="portrait-art"></div><span id="level">6</span></div>
+        <div class="champion-data"><div class="champion-heading"><strong>AETHER</strong><span>THE STORMBLADE</span></div>
+          <div class="resource-bar health" aria-label="Health"><i id="hp-fill"></i><span id="hp-text">1100 / 1100</span></div>
+          <div class="resource-bar mana" aria-label="Mana"><i id="mana-fill"></i><span id="mana-text">620 / 620</span></div>
+          <div class="champion-stats"><span><svg><use href="#sword"/></svg><b id="attack-stat">76</b></span><span>K/D <b id="kda">0 / 0</b></span><span>CS <b id="cs">0</b></span></div>
+        </div>
+      </section>
+      <section class="abilities" aria-label="Champion abilities">
+        <button class="ability q" data-spell="q" aria-label="Q. Crescent strike. Aim at the cursor. 35 mana, 4 second cooldown."><span class="hotkey">Q</span><svg><use href="#sword"/></svg><span class="cooldown"></span><span class="ability-name">Crescent</span><span class="ability-tooltip"><b>Crescent strike</b>A sweeping slash in your aim direction.<small>35 mana · 4s cooldown</small></span></button>
+        <button class="ability w" data-spell="w" aria-label="W. Aegis. Gain a shield. 50 mana, 10 second cooldown."><span class="hotkey">W</span><svg><use href="#shield"/></svg><span class="cooldown"></span><span class="ability-name">Aegis</span><span class="ability-tooltip"><b>Aegis</b>Gain a 240-health shield for 4 seconds.<small>50 mana · 10s cooldown</small></span></button>
+        <button class="ability e" data-spell="e" aria-label="E. Arc dash. Dash toward the cursor and damage enemies. 40 mana, 7 second cooldown."><span class="hotkey">E</span><svg><use href="#dash"/></svg><span class="cooldown"></span><span class="ability-name">Arc dash</span><span class="ability-tooltip"><b>Arc dash</b>Dash toward your aim, cutting through enemies.<small>40 mana · 7s cooldown</small></span></button>
+        <button class="ability r" data-spell="r" aria-label="R. Tempest. Damage nearby enemies. 100 mana, 32 second cooldown."><span class="hotkey">R</span><svg><use href="#storm"/></svg><span class="cooldown"></span><span class="ability-name">Tempest</span><span class="ability-tooltip"><b>Tempest</b>Unleash a storm around you, damaging and slowing enemies.<small>100 mana · 32s cooldown</small></span></button>
+        <div class="summoner-spells">
+          <button class="ability small heal" data-spell="d" aria-label="D. Heal. Restore 350 health. 45 second cooldown."><span class="hotkey">D</span><svg><use href="#heal"/></svg><span class="cooldown"></span><span class="ability-tooltip"><b>Heal</b>Restore 350 health.<small>45s cooldown</small></span></button>
+          <button class="ability small flash" data-spell="f" aria-label="F. Flash. Blink toward your cursor. 35 second cooldown."><span class="hotkey">F</span><svg><use href="#flash"/></svg><span class="cooldown"></span><span class="ability-tooltip"><b>Flash</b>Blink toward your aim.<small>35s cooldown</small></span></button>
+        </div>
+      </section>
+      <div class="utility-panel"><div class="gold"><span>◆</span> <b id="gold">350</b><small>GOLD</small></div><div class="utility-buttons"><button id="shop-button"><svg><use href="#bag"/></svg>Shop <kbd>P</kbd></button><button id="recall-button" title="Return to your fountain · B">Recall <kbd>B</kbd></button></div></div>
+    </footer>
+    <div class="bottom-line"><span>A LEAGUE-INSPIRED FAN GAME</span><span id="game-status">READY TO PLAY</span><span class="bottom-right">ONE LANE. ONE NEXUS.</span></div>
+  </main>
+
+  <dialog id="start-dialog" class="game-dialog start-dialog">
+    <div class="dialog-emblem"><svg><use href="#diamond"/></svg></div><span class="eyebrow">A LEAGUE-INSPIRED SOLO MOBA</span>
+    <h1>Enter the Rift.</h1><p>Lead the wave. Break the turret.<br>Bring down the enemy Nexus.</p>
+    <div class="champion-choice"><div class="mini-portrait"></div><div><strong>Aether</strong><span>The Stormblade · Melee fighter</span></div><span class="selected-check">✓</span></div>
+    <div class="start-controls"><div><kbd>RIGHT-CLICK</kbd><span>Move</span></div><div><kbd>Q W E R</kbd><span>Abilities</span></div><div><kbd>CLICK</kbd><span>Attack</span></div></div>
+    <button class="primary-button" id="play-button">PLAY <span>⟶</span></button><small class="start-note" id="asset-status">Preparing the battlefield…</small>
+  </dialog>
+
+  <dialog id="help-dialog" class="game-dialog"><button class="dialog-close" data-close="help-dialog" aria-label="Close help"><svg><use href="#close"/></svg></button><span class="eyebrow">FIELD GUIDE</span><h2>How to play</h2><p>Destroy the red turret, then the red Nexus. Your minions lead the way and absorb turret fire.</p><dl class="control-list"><div><dt>Right-click / tap</dt><dd>Move or attack a target</dd></div><div><dt>Arrow keys</dt><dd>Move your champion</dd></div><div><dt>Q · W · E · R</dt><dd>Strike · shield · dash · storm</dd></div><div><dt>D · F</dt><dd>Heal · flash</dd></div><div><dt>B · P · Esc</dt><dd>Recall · shop · pause</dd></div></dl><p class="tip">Aim with your cursor. On touch screens, abilities aim at your selected target or the nearest enemy. Basic attacks happen automatically in range. Your fountain restores health and mana.</p><button class="secondary-button" data-close="help-dialog">Back to the Rift</button></dialog>
+
+  <dialog id="pause-dialog" class="game-dialog"><span class="eyebrow">TAKE A BREATH</span><h2>Game paused</h2><p>The Rift will be here when you’re ready.</p><button class="primary-button" id="resume-button">RESUME <span>⟶</span></button><button class="text-button" id="restart-button">Restart match</button></dialog>
+
+  <dialog id="shop-dialog" class="game-dialog shop-dialog"><button class="dialog-close" data-close="shop-dialog" aria-label="Close shop"><svg><use href="#close"/></svg></button><span class="eyebrow">FOUNTAIN SHOP</span><h2>Ready for the next fight.</h2><div class="shop-balance">Your gold <b id="shop-gold">350</b></div><div class="shop-items"><button data-item="blade"><svg><use href="#sword"/></svg><span><b>Runic blade</b><small>+24 attack damage</small></span><strong>300 ◆</strong></button><button data-item="heart"><svg><use href="#heal"/></svg><span><b>Ruby heart</b><small>+260 maximum health</small></span><strong>300 ◆</strong></button><button data-item="lens"><svg><use href="#storm"/></svg><span><b>Storm lens</b><small>+35% ability damage</small></span><strong>450 ◆</strong></button></div><p id="shop-note" class="tip">Return to your fountain to buy items.</p></dialog>
+
+  <dialog id="end-dialog" class="game-dialog end-dialog"><div class="dialog-emblem"><svg><use href="#diamond"/></svg></div><span class="eyebrow" id="end-eyebrow">ENEMY NEXUS DESTROYED</span><h2 id="end-title">Victory</h2><p id="end-description">The Rift is yours.</p><div class="end-stats"><div><b id="end-kills">0</b><span>KILLS</span></div><div><b id="end-cs">0</b><span>MINIONS</span></div><div><b id="end-time">00:00</b><span>TIME</span></div></div><button class="primary-button" id="again-button">PLAY AGAIN <span>⟶</span></button></dialog>
+  <script src="game.js"></script>
+</body>
+</html>
