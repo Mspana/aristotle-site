@@ -1,61 +1,136 @@
 ---
 layout: default
 title: Aristotle
+# Loaded by _layouts/default.html for this page only.
+extra_css:
+  - /assets/css/home.css
+extra_js:
+  - /assets/js/home.js
 ---
+{%- comment -%}
+  The homepage, as locked with Matthew on 9/27 over a local mockup: the mark;
+  the games (stills that cycle until the reel exists); "All games are real and
+  playable"; the composer; then the pitch and Download; then Latest.
+  Plan: modules/ai/docs/design/site_composer_handoff.md in the engine repo.
+  Content lives in _data/home.yml.
+{%- endcomment -%}
+{%- assign home = site.data.home -%}
+{% include mark-symbol.html %}
 
-<section class="hero">
-  <img src="{{ '/assets/images/logo.svg' | relative_url }}" alt="Aristotle" class="logo">
-  <p class="tagline">Making game making easier</p>
-</section>
+<div class="home">
 
-<section class="about">
-  <p class="emphasis">It's Cursor for Game Dev.</p>
+<header class="home-top">
+  <svg class="home-mark" role="img" aria-label="Aristotle"><use href="#mark"/></svg>
+</header>
 
-  <p>Aristotle is for developers who don't want integration hell to stop their creativity. So they spend 3 minutes squashing bugs, not 3 hours. It's for devs who want to be surprised by how useful their Game Engine is. It's for devs who want less time fighting their code, and more time making their game.</p>
-
-  <p class="emphasis">It's for everyone.</p>
-
-  <p class="no-ai">And no AI assets. Ever.</p>
-</section>
-
-<section class="values">
-  <h2>Things we value</h2>
-  <div class="values-grid">
-    <div class="value-card">
-      <h3>your time</h3>
-      <p>aristotle takes care of the game dev bs</p>
+<main>
+<section class="home-hero">
+  <div class="media">
+    <div class="show" id="show" aria-roledescription="carousel" aria-label="Games made in Aristotle">
+      {%- for game in home.showcase %}
+      <img src="{{ game.image | relative_url }}" alt="{{ game.alt | escape }}"
+           data-title="{{ game.title | escape }}" data-meta="Made in Aristotle with {{ game.made_with | escape }}"
+           data-play="{{ game.play | relative_url }}"{% if forloop.first %} class="on"{% else %} loading="lazy"{% endif %}>
+      {%- endfor %}
+      <button class="pause" id="pause" type="button" aria-label="Pause">
+        <svg viewBox="0 0 12 12" id="pause-icon" aria-hidden="true"><rect x="1.5" y="1" width="3" height="10" rx=".6"/><rect x="7.5" y="1" width="3" height="10" rx=".6"/></svg>
+      </button>
     </div>
-    <div class="value-card">
-      <h3>your creativity</h3>
-      <p>you make the assets, you bring the design, and you make the game</p>
+    {%- assign first = home.showcase | first %}
+    <div class="below">
+      <span><a class="cap-title" id="cap-title" href="{{ first.play | relative_url }}">{{ first.title }}</a> &middot; <span id="cap-meta">Made in Aristotle with {{ first.made_with }}</span></span>
+      <span>All games are real and playable.</span>
     </div>
-    <div class="value-card">
-      <h3>your control</h3>
-      <p>choose from top ai models, or bring your own</p>
+  </div>
+
+  <div class="ask">
+    <div class="composer" id="composer">
+      <label for="idea">Help me make</label>
+      <div class="field">
+        <input id="idea" type="text" maxlength="200" autocomplete="off" spellcheck="false">
+        <span class="ghost" id="ghost" aria-hidden="true"></span>
+      </div>
+      <button class="send" id="send" type="button" aria-label="Send" disabled>
+        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h11M10 4.5 14.5 9 10 13.5"/></svg>
+      </button>
     </div>
+
+    {%- comment -%}
+      While the alpha is invite-only, Enter gets a short chat reply (Matthew,
+      9/27). The replies are fixed text, the same for every idea: no model
+      answers on this page, and nothing here may read as if one did.
+    {%- endcomment %}
+    <div class="thread hidden" id="thread" aria-live="polite">
+      <div class="msg me"><span>Help me make <b id="echo"></b></span></div>
+      <div class="msg them hidden" id="dots"><svg class="av" aria-hidden="true"><use href="#mark"/></svg><div class="dots"><i></i><i></i><i></i></div></div>
+      <div class="msg them hidden" id="r1">
+        <svg class="av" aria-hidden="true"><use href="#mark"/></svg>
+        <div class="body">
+          <p>Aristotle is invite-only for now. Leave your email and your idea comes with your invite.</p>
+          <form class="email-form" id="email-form" novalidate>
+            <input id="email" type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Your email">
+            <button type="submit" id="save">Save</button>
+          </form>
+          <p class="form-error hidden" id="form-error" role="alert"></p>
+          <div class="ts" id="ts"></div>
+        </div>
+      </div>
+      <div class="msg me hidden" id="me2"><span id="email-echo"></span></div>
+      <div class="msg them hidden" id="r2">
+        <svg class="av" aria-hidden="true"><use href="#mark"/></svg>
+        <div class="body">
+          <p class="done-title">Saved.</p>
+          <p>When your invite arrives, your idea comes with it.</p>
+          <p class="again">Have your own API key? <a href="{{ '/download' | relative_url }}">Download now</a> and it works without an invite.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pitch">
+    <h1><span class="nw">Make something</span> great</h1>
+    <p class="sub">Aristotle is the best new way to make video games.</p>
+    <a class="download" href="{{ '/download' | relative_url }}">Download Aristotle</a>
+    <p class="download-note">Free. For Windows and macOS.</p>
   </div>
 </section>
 
-<section class="blog-preview">
-  <h2>Latest Updates</h2>
-  <div class="posts">
-    {% for post in site.posts limit:3 %}
-    <div class="post-item">
-      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
-    </div>
-    {% endfor %}
-    {% if site.posts.size == 0 %}
-    <p style="color: var(--text-secondary); text-align: center;">No posts yet. Check back soon.</p>
-    {% endif %}
+<section class="latest">
+  <h2>Latest</h2>
+  <div class="news">
+    {%- for post in site.posts limit: 3 %}
+    {%- assign thumb = home.thumbnails[post.url] %}
+    <a class="news-card" href="{{ post.url | relative_url }}">
+      <div class="thumb">
+        {%- if thumb %}<img src="{{ thumb | relative_url }}" alt="" loading="lazy">
+        {%- else %}<svg class="thumb-mark" aria-hidden="true"><use href="#mark"/></svg>{% endif %}
+      </div>
+      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
+      <div class="t">{{ post.title }}</div>
+      <div class="d">{{ post.excerpt | strip_html | normalize_whitespace | truncatewords: 22 }}</div>
+    </a>
+    {%- endfor %}
   </div>
-  {% if site.posts.size > 3 %}
-  <div class="all-posts">
-    <a href="{{ '/blog' | relative_url }}">View all posts &rarr;</a>
-  </div>
-  {% endif %}
+  {%- if site.posts.size > 3 %}
+  <p class="all-posts"><a href="{{ '/blog' | relative_url }}">All posts</a></p>
+  {%- endif %}
 </section>
+</main>
 
 <footer class="site-footer">
-  <a href="/download">Download Aristotle</a>
+  <a href="{{ '/blog' | relative_url }}">Blog</a>
+  <a href="{{ '/download' | relative_url }}">Download</a>
 </footer>
+
+</div>
+
+<script id="home-config" type="application/json">
+{
+  "ideas": {{ home.ideas | jsonify }},
+  "waitlist": {{ site.waitlist_endpoint | default: "/waitlist" | jsonify }},
+  "turnstile": {{ site.turnstile_site_key | default: "" | jsonify }}
+}
+</script>
+{%- if site.turnstile_site_key and site.turnstile_site_key != "" %}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+{%- endif %}

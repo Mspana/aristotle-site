@@ -1,0 +1,5 @@
+# Local development only:  jekyll build --config _config.yml,_config.dev.yml
+# Cloudflare's published Turnstile test site key, which always passes. Pair it
+# with the test secret 1x0000000000000000000000000000000AA in the Worker's
+# .dev.vars. Never deploy this file's values.
+turnstile_site_key: "1x00000000000000000000AA"

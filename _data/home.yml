@@ -1,0 +1,43 @@
+# The homepage (index.html). Plan: modules/ai/docs/design/site_composer_handoff.md
+# in the engine repo, sections 5, 6 and 8.
+
+# The images under the mark. The line beneath them says "All games are real
+# and playable", so every entry must be a game made in Aristotle with a
+# working `play` link. No asset-store scenes, no games a person built.
+showcase:
+  - title: Iron Front
+    image: /assets/images/posters/ironfront.jpg
+    alt: Iron Front, a battlefield shooter
+    made_with: GPT-6 Astra
+    play: /games/ironfront/
+  - title: Neon League
+    image: /assets/images/posters/neonleague.jpg
+    alt: Neon League, car soccer
+    made_with: GPT-6 Astra
+    play: /games/neonleague/
+  - title: Willowfell
+    image: /assets/images/posters/willowfell.jpg
+    alt: Willowfell, an old-world adventure
+    made_with: GPT-6 Astra
+    play: /games/willowfell/
+  - title: Riftward
+    image: /assets/images/posters/riftward.jpg
+    alt: Riftward, a MOBA
+    made_with: GPT-6 Astra
+    play: /games/riftward/
+
+# What the composer types, in grey, after "Help me make". Genres only, never a
+# named product. The plan's rule: each one must be a sentence the editor's
+# first-run tour has actually built into a working game. NOT YET TRIALLED --
+# run misc/scripts/onboarding_tour_trials.py on these before this ships.
+ideas:
+  - a 3D platformer
+  - a base-building game set in space
+  - a sci-fi adventure
+  - a dungeon crawler
+  - a car soccer game with neon arenas
+
+# Pictures for the "Latest" cards, by post URL. A post with none shows the mark.
+thumbnails:
+  /blog/2026/09/07/testing-astra-more/: /assets/images/posters/neonleague.jpg
+  /blog/2026/09/07/moba-test/: /assets/images/posters/riftward.jpg

@@ -3,6 +3,15 @@ description: "Cursor for game dev. Less time fighting your code, more time makin
 url: "https://aristotle.games"
 baseurl: ""
 
+# The homepage composer's email form (index.html, assets/js/home.js).
+# It POSTs to the Worker's /waitlist route, which answers 503 until the
+# Worker has TURNSTILE_SECRET_KEY. This is the PUBLIC half of the same
+# Turnstile widget: create the widget for aristotle.games in the Cloudflare
+# dashboard, put its site key here, and the secret key in the Worker.
+# Empty means no widget is drawn, and the Worker refuses the form.
+waitlist_endpoint: /waitlist
+turnstile_site_key: ""
+
 # Build settings
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title/
