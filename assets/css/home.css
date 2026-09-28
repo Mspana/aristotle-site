@@ -15,7 +15,7 @@
 /* ---- the logo, centred: the mark with the name beneath it --------------- */
 /* logo.svg carries its own margin (about a tenth of its height top and
    bottom), so the header's padding is smaller than it looks. */
-.home-top { display: flex; justify-content: center; padding: 28px 16px 8px; }
+.home-top { display: flex; justify-content: center; padding: 4px 16px 8px; }
 .home-logo { width: 220px; height: auto; display: block; }
 
 /* ---- hero ----------------------------------------------------------------- */
@@ -206,7 +206,54 @@
 .all-posts { margin-top: 32px; font-size: 14px; }
 .all-posts a { color: var(--text-secondary); }
 
-.home .site-footer a { margin: 0 14px; font-size: 14px; }
+/* ---- the top bar: compact, opaque, always there -------------------------- */
+.home [id] { scroll-margin-top: 72px; }
+.bar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg-dark); border-bottom: 1px solid transparent;
+  transition: border-color .2s ease;
+}
+.bar.scrolled { border-bottom-color: #1f1d1b; }
+.bar-in {
+  position: relative; max-width: 1160px; margin: 0 auto; height: 60px; padding: 0 32px;
+  display: flex; align-items: center; gap: 28px;
+}
+.home .bar-mark {
+  display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--cream);
+  opacity: 0; transition: opacity .2s ease; pointer-events: none;
+}
+.bar.scrolled .bar-mark { opacity: 1; pointer-events: auto; }
+.bar-mark svg { width: 26px; height: 26px; }
+.bar-mark span { font-family: 'Libre Baskerville', Georgia, serif; font-size: 17px; }
+/* At the top, the links sit centred; --center-shift (set in home.js) is the
+   distance from their resting right-hand centre to the bar's centre. */
+.bar-right {
+  margin-left: auto; display: flex; align-items: center; gap: 28px;
+  transition: transform .35s cubic-bezier(.2, .7, .2, 1);
+}
+.bar:not(.scrolled) .bar-right { transform: translateX(var(--center-shift, 0px)); }
+.bar nav { display: flex; gap: 26px; }
+.home .bar nav a { font-size: 14.5px; color: var(--text-secondary); text-decoration: none; }
+.home .bar nav a:hover { color: var(--cream); }
+.home .bar .bar-dl {
+  font-size: 14px; font-weight: 600; text-decoration: none; padding: 8px 16px; border-radius: 999px;
+  background: var(--cream); color: var(--bg-dark);
+}
+@media (prefers-reduced-motion: reduce) { .bar-right, .bar, .bar-mark { transition: none; } }
+
+/* ---- the footer -------------------------------------------------------------- */
+.foot { border-top: 1px solid #1f1d1b; margin-top: 24px; }
+.foot-in {
+  max-width: 1160px; margin: 0 auto; padding: 48px 32px 40px;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px;
+}
+.foot-brand svg { width: 34px; height: 34px; color: var(--cream); display: block; }
+.foot-brand p { margin-top: 12px; font-size: 14px; color: var(--text-dim); max-width: 30ch; }
+.foot h4 { font-size: 13px; font-weight: 600; color: var(--cream-muted); margin-bottom: 12px; }
+.foot ul { list-style: none; display: grid; gap: 8px; }
+.home .foot a { font-size: 14px; color: var(--text-secondary); text-decoration: none; }
+.home .foot a:hover { color: var(--cream); }
+.foot-base { max-width: 1160px; margin: 0 auto; padding: 0 32px 40px; font-size: 12.5px; color: var(--text-dim); }
 
 /* ---- the five points: statement, text, image; the side flips each row -- */
 .points { max-width: 1160px; margin: 0 auto; padding: 40px 32px 72px; }
@@ -305,6 +352,13 @@
 /* ---- narrow screens --------------------------------------------------- */
 @media (max-width: 900px) {
   .home-logo { width: 180px; }
+  .bar-in { padding: 0 16px; gap: 16px; }
+  .bar nav { display: none; }
+  .bar-right { gap: 0; }
+  .bar:not(.scrolled) .bar-right { transform: none; }
+  .foot-in { grid-template-columns: 1fr 1fr; padding: 40px 16px 32px; }
+  .foot-brand { grid-column: 1 / -1; }
+  .foot-base { padding: 0 16px 32px; }
   .home-hero { grid-template-columns: minmax(0, 1fr); padding: 24px 16px 72px; }
   .pitch { margin-top: 48px; }
   .pitch h1 .nw { white-space: normal; }

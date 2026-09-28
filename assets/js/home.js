@@ -13,6 +13,26 @@
   var reduce = false;
   try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
+  /* ---- the top bar ------------------------------------------------------------ */
+  // Always visible. 'scrolled' once the big logo has gone: the small mark shows
+  // and the links slide from the centre to the right (the slide is CSS).
+  var bar = $('bar'), barGroup = $('bar-right'), bigLogo = document.querySelector('.home-top');
+  if (bar && barGroup && bigLogo) {
+    var barInner = bar.querySelector('.bar-in');
+    var onScroll = function () {
+      bar.classList.toggle('scrolled', window.scrollY > bigLogo.offsetTop + bigLogo.offsetHeight - 60);
+    };
+    var measureBar = function () {
+      var shift = barInner.clientWidth / 2 - (barGroup.offsetLeft + barGroup.offsetWidth / 2);
+      bar.style.setProperty('--center-shift', Math.round(shift) + 'px');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measureBar);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureBar);
+    measureBar();
+    onScroll();
+  }
+
   /* ---- the games: stills that cycle every 4 s ---------------------------- */
   var imgs = document.querySelectorAll('#show img');
   var i = 0, timer = null, paused = reduce;

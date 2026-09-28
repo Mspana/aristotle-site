@@ -19,6 +19,31 @@ extra_js:
 
 <div class="home">
 
+{%- comment -%}
+  The top bar (Matthew, 9/27). Always visible: it holds Download, the page's
+  main action. At the top of the page its links sit centred above the big
+  logo; once the logo scrolls away they slide right and the small mark
+  appears on the left, so the logo is never shown twice. assets/js/home.js.
+{%- endcomment %}
+<div class="bar" id="bar">
+  <div class="bar-in">
+    <a class="bar-mark" href="#" aria-label="Aristotle, back to top">
+      <svg aria-hidden="true"><use href="#mark"/></svg>
+      <span>Aristotle</span>
+    </a>
+    <div class="bar-right" id="bar-right">
+      <nav aria-label="On this page">
+        <a href="#why">Why Aristotle</a>
+        <a href="#games">Games</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#questions">Questions</a>
+        <a href="{{ '/blog' | relative_url }}">Blog</a>
+      </nav>
+      <a class="bar-dl" href="{{ '/download' | relative_url }}">Download</a>
+    </div>
+  </div>
+</div>
+
 <header class="home-top">
   <img class="home-logo" src="{{ '/assets/images/logo.svg' | relative_url }}" alt="Aristotle" width="220" height="151">
 </header>
@@ -95,7 +120,7 @@ extra_js:
   </div>
 </section>
 
-<section class="latest">
+<section class="latest" id="latest">
   <h2>Latest</h2>
   <div class="news">
     {%- for post in site.posts limit: 3 %}
@@ -122,7 +147,7 @@ extra_js:
   the engine repo. Every line has to be checkable. In particular, never "no
   AI assets": the AI makes greyboxed placeholders.
 {%- endcomment %}
-<section class="points" aria-label="What Aristotle is for">
+<section class="points" id="why" aria-label="What Aristotle is for">
 
   <div class="point">
     <div class="point-text">
@@ -176,7 +201,7 @@ extra_js:
   join when there is something in them. Every card must have a working Play
   link ("All games are real and playable").
 {%- endcomment %}
-<section class="sec" aria-labelledby="lib-h">
+<section class="sec" id="games" aria-labelledby="lib-h">
   <h2 id="lib-h">Games made in Aristotle</h2>
   <div class="shelf">
     <div class="shelf-head"><h3>One shots</h3><span>One message, nothing after it</span></div>
@@ -200,7 +225,7 @@ extra_js:
   released, so the paid tiers show no price yet and cannot be bought: there
   is no billing.
 {%- endcomment %}
-<section class="sec" aria-labelledby="price-h">
+<section class="sec" id="pricing" aria-labelledby="price-h">
   <div class="sec-head center">
     <h2 id="price-h">Pricing</h2>
     <p class="sec-lede">The editor is free. The plans are for hosted AI.</p>
@@ -255,7 +280,7 @@ extra_js:
   <p class="plans-note">Accounts are invite-only during the alpha, and paid plans are not on sale yet.</p>
 </section>
 
-<section class="sec faq" aria-labelledby="faq-h">
+<section class="sec faq" id="questions" aria-labelledby="faq-h">
   <h2 id="faq-h">Questions</h2>
   <details>
     <summary>Do I need an account?</summary>
@@ -280,9 +305,35 @@ extra_js:
 </section>
 </main>
 
-<footer class="site-footer">
-  <a href="{{ '/blog' | relative_url }}">Blog</a>
-  <a href="{{ '/download' | relative_url }}">Download</a>
+<footer class="foot">
+  <div class="foot-in">
+    <div class="foot-brand">
+      <svg aria-hidden="true"><use href="#mark"/></svg>
+      <p>A game engine with an AI that works inside the editor.</p>
+    </div>
+    <div>
+      <h4>Aristotle</h4>
+      <ul>
+        <li><a href="{{ '/download' | relative_url }}">Download</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#questions">Questions</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Read</h4>
+      <ul>
+        <li><a href="{{ '/blog' | relative_url }}">Blog</a></li>
+        <li><a href="#games">Games</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hello@aristotle.games">hello@aristotle.games</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="foot-base">&copy; {{ site.time | date: "%Y" }} Aristotle</p>
 </footer>
 
 </div>
