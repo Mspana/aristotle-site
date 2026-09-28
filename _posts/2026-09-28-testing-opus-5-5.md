@@ -46,6 +46,18 @@ Visually, this was a pretty significant step behind Astra, but a significant ste
 
 On the bright side, this game felt really, really good. Controls were responsive, and the characters animated nicely in response to your movement. It was also pretty unforgiving: it's the first game where the enemy killed me before I killed them. Note to the dev: please add AOE moves. I didn't like the wizard I was playing.
 
+Very uniquely, Opus 5.5 thought about the *entire game* before creating it. It thought as if it was making changes, but just didn't. And once it had everything thought out, then it did it. It's like it mimed out what it wanted to do first.
+
+<figure>
+  <a href="{{ '/assets/images/posts/opus-5-5-thinking.png' | relative_url }}" target="_blank" rel="noopener"><img src="{{ '/assets/images/posts/opus-5-5-thinking.png' | relative_url }}" alt="Timeline from the chat log: Opus 5.5 thinks for 11 minutes 40 seconds, writing 'Now I'm writing the player controller script' and similar lines, with no changes made, then makes its first change at 11:52." loading="lazy"></a>
+  <figcaption>Opus 5.5: 11 minutes 40 seconds of thinking, written as if it were building, before its first change.</figcaption>
+</figure>
+
+<figure>
+  <a href="{{ '/assets/images/posts/astra-working.png' | relative_url }}" target="_blank" rel="noopener"><img src="{{ '/assets/images/posts/astra-working.png' | relative_url }}" alt="Timeline from the chat log: GPT-6 Astra runs the match, thinks for a second or two, fixes scripts, and runs the match again, several times in eight minutes." loading="lazy"></a>
+  <figcaption>Astra, same prompt: a few seconds of thinking, a change, a test run, repeat.</figcaption>
+</figure>
+
 Overall, I think I expected more from Anthropic. They've mostly had OpenAI's number when it comes to frontier models, but Astra certainly offered more visual capability in this example. Perhaps Opus can build better mechanics. That'll be in the next test, where it makes a few more games.
 
 -Matt
