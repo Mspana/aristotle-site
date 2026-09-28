@@ -405,14 +405,7 @@ body {
 /* Game Embed */
 /* Captioned images in posts */
 .post-content figure {
-  width: 70%;
-  margin: 2rem auto;
-}
-
-@media (max-width: 600px) {
-  .post-content figure {
-    width: 100%;
-  }
+  margin: 2rem 0;
 }
 
 .post-content figure img {
