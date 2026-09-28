@@ -121,30 +121,47 @@
   /* ---- the bot check ------------------------------------------------------- */
   // Rendered when the email form appears, in 'interaction-only' mode, so most
   // visitors never see it. The Worker refuses a request without a valid token.
-  var widgetId = null, token = '', waiters = [];
+  //
+  // Three states matter, because each needs a different sentence:
+  //   a token is ready            -> send it
+  //   Cloudflare wants a tick     -> say so and keep the form (never time out)
+  //   the check could not run     -> say so, and send nothing
+  var TICK = 'Tick the box below to show you are a person, then press Save.';
+  var BROKEN = 'The check that keeps out spam did not load. Reload the page and try again.';
+  var widgetId = null, token = '', needsTick = false, broken = false, waiters = [];
   function renderTurnstile() {
     if (!TS_KEY || widgetId !== null) return;
-    if (!window.turnstile) { setTimeout(renderTurnstile, 200); return; }   // script still loading
+    if (!window.turnstile) {                       // script still loading
+      if (!renderTurnstile.waited) renderTurnstile.waited = Date.now();
+      if (Date.now() - renderTurnstile.waited > 15000) { broken = true; flushToken(); return; }
+      setTimeout(renderTurnstile, 200);
+      return;
+    }
     widgetId = window.turnstile.render('#ts', {
       sitekey: TS_KEY,
       action: 'waitlist',
       appearance: 'interaction-only',
-      callback: function (t) { token = t; flushToken(); },
+      callback: function (t) { token = t; needsTick = false; broken = false; hideError(TICK); flushToken(); },
       'expired-callback': function () { token = ''; },
-      'error-callback': function () { token = ''; flushToken(); }
+      'before-interactive-callback': function () { needsTick = true; flushToken(); },
+      'error-callback': function () { token = ''; broken = true; flushToken(); return true; }
     });
   }
-  function flushToken() { var w = waiters; waiters = []; w.forEach(function (r) { r(token); }); }
+  function flushToken() { var w = waiters; waiters = []; w.forEach(function (r) { r(); }); }
+  // Resolves to the token, or to '' with needsTick/broken saying why not.
   function getToken() {
     return new Promise(function (resolve) {
-      if (!TS_KEY || token) return resolve(token);
-      waiters.push(resolve);
-      setTimeout(flushToken, 15000);   // never hang the form on a stuck widget
+      if (!TS_KEY || token || needsTick || broken) return resolve(token);
+      waiters.push(function () { resolve(token); });
+      // Without a tick and without an error, a token normally comes in a second
+      // or two. Past 15 s something is wrong; say so rather than hang.
+      setTimeout(function () { if (!token && !needsTick) broken = true; flushToken(); }, 15000);
     });
   }
   function spendToken() {
     // A token works once. Whatever the answer, the next try needs a new one.
     token = '';
+    broken = false;
     if (widgetId !== null && window.turnstile) window.turnstile.reset(widgetId);
   }
 
@@ -156,6 +173,9 @@
     errorLine.textContent = message;
     errorLine.classList.remove('hidden');
   }
+  function hideError(onlyIf) {
+    if (!onlyIf || errorLine.textContent === onlyIf) errorLine.classList.add('hidden');
+  }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -166,9 +186,16 @@
       return;
     }
     errorLine.classList.add('hidden');
+    if (TS_KEY && !token && needsTick) {           // Cloudflare is waiting for a tick
+      showError(TICK);
+      return;
+    }
     saveBtn.disabled = true;
 
     var saved = getToken().then(function (t) {
+      // No token: tell the person what to do instead of sending a request the
+      // Worker is certain to refuse.
+      if (TS_KEY && !t) return { ok: false, message: needsTick ? TICK : BROKEN, local: true };
       return fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -177,7 +204,7 @@
         return res.json().catch(function () { return null; });
       });
     }).catch(function () { return null; }).then(function (body) {
-      spendToken();
+      if (!(body && body.local)) spendToken();   // a token that was never sent is still good
       return body;
     });
 
