@@ -20,7 +20,7 @@ extra_js:
 <div class="home">
 
 <header class="home-top">
-  <svg class="home-mark" role="img" aria-label="Aristotle"><use href="#mark"/></svg>
+  <img class="home-logo" src="{{ '/assets/images/logo.svg' | relative_url }}" alt="Aristotle" width="220" height="151">
 </header>
 
 <main>
@@ -114,6 +114,169 @@ extra_js:
   {%- if site.posts.size > 3 %}
   <p class="all-posts"><a href="{{ '/blog' | relative_url }}">All posts</a></p>
   {%- endif %}
+</section>
+
+{%- comment -%}
+  The five points (Matthew, 9/27): statement, text, image; the side flips each
+  row. Copy and proof: modules/ai/docs/design/site_front_page_messaging.md in
+  the engine repo. Every line has to be checkable. In particular, never "no
+  AI assets": the AI makes greyboxed placeholders.
+{%- endcomment %}
+<section class="points" aria-label="What Aristotle is for">
+
+  <div class="point">
+    <div class="point-text">
+      <h2>Easy to use</h2>
+      <p>Describe the game you want in one sentence. Aristotle builds it in the editor while you watch, then asks what to do next.</p>
+      <p>No setup. Sign in, or bring your own API key.</p>
+    </div>
+    <div class="point-img"><img src="{{ '/assets/images/points/easy.jpg' | relative_url }}" alt="The Aristotle editor, with the AI planning a car soccer game in the panel on the right" loading="lazy"></div>
+  </div>
+
+  <div class="point">
+    <div class="point-text">
+      <h2>Fully capable</h2>
+      <p>A full game engine, built on Godot. 2D and 3D, real scenes, real scripts, real physics.</p>
+      <p>The AI uses the same editor you do, and runs your game to check its own work.</p>
+    </div>
+    <div class="point-img"><img src="{{ '/assets/images/points/capable.jpg' | relative_url }}" alt="Iron Front, a 3D shooter made in Aristotle, in play" loading="lazy"></div>
+  </div>
+
+  <div class="point">
+    <div class="point-text">
+      <h2>Fast</h2>
+      <p>A first playable game in about five minutes.</p>
+      <p>When something breaks, the AI reads the error, fixes it, and runs the game again. Minutes, not hours.</p>
+    </div>
+    <div class="point-img"><img src="{{ '/assets/images/points/fast.jpg' | relative_url }}" alt="Willowfell being built in the Aristotle editor" loading="lazy"><span class="tag">From the build timelapse</span></div>
+  </div>
+
+  <div class="point">
+    <div class="point-text">
+      <h2>Focus on the creative work</h2>
+      <p>Aristotle handles the plumbing: scenes, signals, errors.</p>
+      <p>It blocks the game out in simple shapes so it runs. You bring the ideas, the design and the finished art.</p>
+    </div>
+    <div class="point-img"><img src="{{ '/assets/images/posters/willowfell.jpg' | relative_url }}" alt="Willowfell, an old-world adventure made in Aristotle" loading="lazy"></div>
+  </div>
+
+  <div class="point">
+    <div class="point-text">
+      <h2>Built for independent developers</h2>
+      <p>Free for individuals and small teams. The editor needs no account to open, and works offline.</p>
+      <p>Choose from top AI models, or bring your own key.</p>
+    </div>
+    <div class="point-img"><img src="{{ '/assets/images/points/indie.jpg' | relative_url }}" alt="Neon League, car soccer made in Aristotle, in play" loading="lazy"></div>
+  </div>
+
+</section>
+
+{%- comment -%}
+  The library. Only rows with real games are shown: One days and One weeks
+  join when there is something in them. Every card must have a working Play
+  link ("All games are real and playable").
+{%- endcomment %}
+<section class="sec" aria-labelledby="lib-h">
+  <h2 id="lib-h">Games made in Aristotle</h2>
+  <div class="shelf">
+    <div class="shelf-head"><h3>One shots</h3><span>One message, nothing after it</span></div>
+    <div class="cards">
+      {%- for game in home.showcase %}
+      <div class="card">
+        <div class="pic"><img src="{{ game.image | relative_url }}" alt="" loading="lazy"></div>
+        <div class="meta">
+          <span class="ttl">{{ game.title }}</span>
+          <span class="cap">{{ game.made_with }} ({{ game.plan }}) &middot; {{ game.how }}</span>
+          <a class="play" href="{{ game.play | relative_url }}">Play</a>
+        </div>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+{%- comment -%}
+  Pricing, shaped like ChatGPT's (Matthew, 9/27). The full model is not
+  released, so the paid tiers show no price yet and cannot be bought: there
+  is no billing.
+{%- endcomment %}
+<section class="sec" aria-labelledby="price-h">
+  <div class="sec-head center">
+    <h2 id="price-h">Pricing</h2>
+    <p class="sec-lede">The editor is free. The plans are for hosted AI.</p>
+  </div>
+  <div class="plans">
+    <div class="plan">
+      <h3>Free</h3>
+      <p class="for">Best for trying Aristotle</p>
+      <div class="price"><b>$0</b><small>/ month</small></div>
+      <a class="cta" href="{{ '/download' | relative_url }}">Download</a>
+      <p class="incl">Includes:</p>
+      <ul>
+        <li>The full editor, no account needed</li>
+        <li>Hosted AI on GLM 5.3 Flash, up to a limit</li>
+        <li>Bring your own API key</li>
+      </ul>
+      <p class="fine">The editor works offline. The AI needs a connection.</p>
+    </div>
+    <div class="plan pick">
+      <h3>Pro</h3>
+      <p class="for">Best for making games with better models</p>
+      <div class="price"><span class="word">Coming soon</span></div>
+      <span class="cta off">Not on sale yet</span>
+      <p class="incl">Everything in Free, and:</p>
+      <ul>
+        <li>Better models, including GPT-6 Astra</li>
+        <li>Higher limits</li>
+      </ul>
+    </div>
+    <div class="plan">
+      <h3>Max</h3>
+      <p class="for">Best for building every day</p>
+      <div class="price"><span class="word">Coming soon</span></div>
+      <span class="cta off">Not on sale yet</span>
+      <p class="incl">Everything in Pro, and:</p>
+      <ul>
+        <li>Much higher limits</li>
+      </ul>
+    </div>
+    <div class="plan">
+      <h3>Teams</h3>
+      <p class="for">Best for studios</p>
+      <div class="price"><span class="word">Per seat</span></div>
+      <a class="cta quiet" href="mailto:hello@aristotle.games?subject=Aristotle%20for%20teams">Contact us</a>
+      <p class="incl">Everything in Max, and:</p>
+      <ul>
+        <li>A seat for each member</li>
+        <li>Terms for studios</li>
+      </ul>
+    </div>
+  </div>
+  <p class="plans-note">Accounts are invite-only during the alpha, and paid plans are not on sale yet.</p>
+</section>
+
+<section class="sec faq" aria-labelledby="faq-h">
+  <h2 id="faq-h">Questions</h2>
+  <details>
+    <summary>Do I need an account?</summary>
+    <p>Not to download Aristotle or to use the editor. An account is only for hosted AI, and during the alpha accounts are invite-only. A key of your own works without one.</p>
+  </details>
+  <details>
+    <summary>Which AI models can I use?</summary>
+    <p>Free runs GLM 5.3 Flash. Pro and Max add better models, including GPT-6 Astra. Or bring your own API key.</p>
+  </details>
+  <details>
+    <summary>Does it work offline?</summary>
+    <p>The editor does, always. The AI needs a connection.</p>
+  </details>
+  <details>
+    <summary>Does it make the art?</summary>
+    <p>It makes placeholders: simple shapes and colours, built in the editor, so the game runs from the start. It does not generate images. The finished art is yours.</p>
+  </details>
+  <details>
+    <summary>Can I export my game?</summary>
+    <p>Not from alpha builds yet. Export templates are coming.</p>
+  </details>
 </section>
 </main>
 

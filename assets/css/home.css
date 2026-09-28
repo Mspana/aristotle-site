@@ -12,9 +12,11 @@
 .home a { color: inherit; }
 .home .hidden { display: none !important; }
 
-/* ---- the mark, centred ------------------------------------------------- */
-.home-top { display: flex; justify-content: center; padding: 48px 16px 24px; }
-.home-mark { width: 76px; height: 76px; display: block; color: var(--cream); }
+/* ---- the logo, centred: the mark with the name beneath it --------------- */
+/* logo.svg carries its own margin (about a tenth of its height top and
+   bottom), so the header's padding is smaller than it looks. */
+.home-top { display: flex; justify-content: center; padding: 28px 16px 8px; }
+.home-logo { width: 220px; height: auto; display: block; }
 
 /* ---- hero ----------------------------------------------------------------- */
 .home-hero {
@@ -182,7 +184,7 @@
 @keyframes home-bob { 0%, 60%, 100% { opacity: .35; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
 
 /* ---- latest --------------------------------------------------------------- */
-.latest { max-width: 1240px; margin: 0 auto; padding: 24px 32px 112px; }
+.latest { max-width: 1160px; margin: 0 auto; padding: 24px 32px 48px; }
 .latest h2 {
   font-family: 'Libre Baskerville', Georgia, serif;
   font-weight: 400; font-size: 28px; margin-bottom: 28px; color: var(--cream);
@@ -206,13 +208,116 @@
 
 .home .site-footer a { margin: 0 14px; font-size: 14px; }
 
+/* ---- the five points: statement, text, image; the side flips each row -- */
+.points { max-width: 1160px; margin: 0 auto; padding: 40px 32px 72px; }
+.point {
+  display: grid; grid-template-columns: 5fr 7fr; gap: 72px; align-items: center;
+  padding: 56px 0;
+}
+.point + .point { border-top: 1px solid #1c1a18; }
+.point:nth-child(even) { grid-template-columns: 7fr 5fr; }
+.point:nth-child(even) .point-text { order: 2; }
+.point-text h2 {
+  font-family: 'Libre Baskerville', Georgia, serif; font-weight: 700; color: var(--cream);
+  font-size: clamp(28px, 3vw, 40px); line-height: 1.15; letter-spacing: -0.01em;
+  margin-bottom: 18px;
+}
+.point-text p { font-size: 18px; color: var(--text-secondary); max-width: 34ch; }
+.point-text p + p { margin-top: 14px; }
+.point-img {
+  aspect-ratio: 16 / 10; border-radius: 12px; overflow: hidden;
+  background: var(--bg-section); position: relative;
+}
+.point-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.point-img .tag {
+  position: absolute; left: 12px; bottom: 12px;
+  font-size: 12px; color: var(--cream); background: rgba(13,13,13,.72);
+  padding: 4px 9px; border-radius: 999px;
+}
+
+/* ---- sections below the points ------------------------------------------ */
+.sec { max-width: 1160px; margin: 0 auto; padding: 72px 32px; }
+.sec > h2, .sec-head h2 {
+  font-family: 'Libre Baskerville', Georgia, serif; font-weight: 700; color: var(--cream);
+  font-size: clamp(28px, 3vw, 38px); letter-spacing: -0.01em; margin-bottom: 10px;
+}
+.sec-lede { font-size: 17px; color: var(--text-secondary); max-width: 60ch; margin-bottom: 32px; }
+.sec-head.center { text-align: center; }
+.sec-head.center .sec-lede { margin-left: auto; margin-right: auto; }
+
+/* the library */
+.shelf { margin-top: 28px; }
+.shelf-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.shelf-head h3 { font-family: 'Libre Baskerville', Georgia, serif; font-weight: 400; font-size: 22px; color: var(--cream); }
+.shelf-head span { font-size: 13px; color: var(--text-dim); }
+.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.card { background: var(--bg-section); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+.card .pic { aspect-ratio: 16 / 10; background: #1a1917; }
+.card .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card .meta { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.card .ttl { font-weight: 500; font-size: 15.5px; color: var(--cream); }
+.card .cap { font-size: 12.5px; color: var(--text-dim); }
+.home .card .play { margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--cream); text-decoration: none; align-self: flex-start; }
+.home .card .play:hover { text-decoration: underline; }
+
+/* pricing */
+.plans { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+.plan {
+  background: var(--bg-section); border: 1px solid #221f1c; border-radius: 14px;
+  padding: 26px 22px 22px; display: flex; flex-direction: column;
+}
+.plan.pick { border-color: var(--brown-light); }
+.plan h3 { font-family: 'Libre Baskerville', Georgia, serif; font-weight: 700; font-size: 26px; color: var(--cream); }
+.plan .for { font-size: 14.5px; color: var(--text-secondary); margin-top: 4px; min-height: 44px; }
+.plan .price { margin: 22px 0 18px; display: flex; align-items: baseline; gap: 6px; min-height: 52px; color: var(--cream); }
+.plan .price b { font-size: 42px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+.plan .price small { font-size: 14px; color: var(--text-dim); }
+.plan .price .word { font-size: 26px; font-weight: 600; }
+.home .plan .cta {
+  display: block; text-align: center; text-decoration: none; font-weight: 600; font-size: 15px;
+  padding: 12px; border-radius: 999px; background: var(--cream); color: var(--bg-dark);
+}
+.home .plan .cta.quiet { background: transparent; color: var(--cream); border: 1px solid #3a3632; }
+.home .plan .cta.off { background: transparent; color: var(--text-dim); border: 1px solid #2a2724; font-weight: 500; cursor: default; }
+.plan .incl { font-size: 14px; font-weight: 600; margin: 22px 0 10px; padding-bottom: 12px; border-bottom: 1px solid #221f1c; color: var(--cream); }
+.plan ul { list-style: none; display: grid; gap: 10px; }
+.plan li { font-size: 14px; color: var(--cream-muted); padding-left: 24px; position: relative; line-height: 1.45; }
+.plan li::before {
+  content: ""; position: absolute; left: 2px; top: 4px; width: 10px; height: 6px;
+  border-left: 1.5px solid var(--cream-muted); border-bottom: 1.5px solid var(--cream-muted);
+  transform: rotate(-45deg);
+}
+.plan .fine { margin-top: auto; padding-top: 20px; font-size: 12.5px; color: var(--text-dim); }
+.plans-note { margin-top: 18px; font-size: 13px; color: var(--text-dim); text-align: center; }
+
+/* questions */
+.faq details { max-width: 760px; border-bottom: 1px solid #1f1d1b; }
+.faq summary {
+  list-style: none; cursor: pointer; padding: 20px 0; font-size: 18px; font-weight: 500; color: var(--cream);
+  display: flex; justify-content: space-between; gap: 16px;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--text-dim); font-weight: 400; }
+.faq details[open] summary::after { content: "\2212"; }
+.faq details p { padding: 0 0 20px; font-size: 16px; color: var(--text-secondary); max-width: 62ch; }
+
+
 /* ---- narrow screens --------------------------------------------------- */
 @media (max-width: 900px) {
+  .home-logo { width: 180px; }
   .home-hero { grid-template-columns: minmax(0, 1fr); padding: 24px 16px 72px; }
   .pitch { margin-top: 48px; }
   .pitch h1 .nw { white-space: normal; }
   .latest { padding: 8px 16px 80px; }
   .news { grid-template-columns: 1fr; gap: 36px; }
+  .points { padding: 16px 16px 40px; }
+  .point, .point:nth-child(even) { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
+  .point .point-text, .point:nth-child(even) .point-text { order: 2; }
+  .point-text p { max-width: none; }
+  .sec { padding: 48px 16px; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .plans { grid-template-columns: 1fr; gap: 12px; }
+  .plan .for, .plan .price { min-height: 0; }
 }
 @media (max-width: 520px) {
   .composer label { font-size: 15px; }

@@ -9,27 +9,36 @@ showcase:
     image: /assets/images/posters/ironfront.jpg
     alt: Iron Front, a battlefield shooter
     made_with: GPT-6 Astra
+    plan: Pro
+    how: one prompt
     play: /games/ironfront/
   - title: Neon League
     image: /assets/images/posters/neonleague.jpg
     alt: Neon League, car soccer
     made_with: GPT-6 Astra
+    plan: Pro
+    how: one prompt
     play: /games/neonleague/
   - title: Willowfell
     image: /assets/images/posters/willowfell.jpg
     alt: Willowfell, an old-world adventure
     made_with: GPT-6 Astra
+    plan: Pro
+    how: one prompt
     play: /games/willowfell/
   - title: Riftward
     image: /assets/images/posters/riftward.jpg
     alt: Riftward, a MOBA
     made_with: GPT-6 Astra
+    plan: Pro
+    how: one prompt
     play: /games/riftward/
 
 # What the composer types, in grey, after "Help me make". Genres only, never a
 # named product. The plan's rule: each one must be a sentence the editor's
-# first-run tour has actually built into a working game. NOT YET TRIALLED --
-# run misc/scripts/onboarding_tour_trials.py on these before this ships.
+# first-run tour has actually built into a working game. SHIPPED 9/27 NOT YET
+# TRIALLED -- run misc/scripts/onboarding_tour_trials.py on these and drop any
+# that fail.
 ideas:
   - a 3D platformer
   - a base-building game set in space
