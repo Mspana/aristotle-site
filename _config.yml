@@ -8,9 +8,11 @@ baseurl: ""
 # Worker has TURNSTILE_SECRET_KEY. This is the PUBLIC half of the same
 # Turnstile widget: create the widget for aristotle.games in the Cloudflare
 # dashboard, put its site key here, and the secret key in the Worker.
-# Empty means no widget is drawn, and the Worker refuses the form.
+# Widget "aristotle.games homepage waitlist", created 9/27 (managed mode,
+# domain aristotle.games). Empty means no widget is drawn, and the Worker
+# refuses the form.
 waitlist_endpoint: /waitlist
-turnstile_site_key: ""
+turnstile_site_key: "0x4AAAAAAFFuxcKXK_VxXFWy"
 
 # Build settings
 markdown: kramdown
