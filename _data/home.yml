@@ -48,5 +48,6 @@ ideas:
 
 # Pictures for the "Latest" cards, by post URL. A post with none shows the mark.
 thumbnails:
+  /blog/2026/09/28/testing-opus-5-5/: /assets/images/posters/opus-league.jpg
   /blog/2026/09/07/testing-astra-more/: /assets/images/posters/neonleague.jpg
   /blog/2026/09/07/moba-test/: /assets/images/posters/riftward.jpg

@@ -403,6 +403,24 @@ body {
 }
 
 /* Game Embed */
+/* Captioned images in posts */
+.post-content figure {
+  margin: 2rem 0;
+}
+
+.post-content figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+.post-content figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
 .game-embed {
   margin: 2rem 0;
   /* Break out of the 720px text column: these HUDs reserve fixed pixel
