@@ -27,14 +27,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  {%- comment -%} ?v= is the build time: the host caches assets for four hours,
+      and a page must never run last deploy's script. {%- endcomment %}
   {%- for css in page.extra_css %}
-  <link rel="stylesheet" href="{{ css | relative_url }}">
+  <link rel="stylesheet" href="{{ css | relative_url }}?v={{ site.time | date: '%s' }}">
   {%- endfor %}
 </head>
 <body>
   {{ content }}
   {%- for js in page.extra_js %}
-  <script src="{{ js | relative_url }}" defer></script>
+  <script src="{{ js | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
   {%- endfor %}
 </body>
 </html>
