@@ -12,12 +12,6 @@
 .home a { color: inherit; }
 .home .hidden { display: none !important; }
 
-/* ---- the logo, centred: the mark with the name beneath it --------------- */
-/* logo.svg carries its own margin (about a tenth of its height top and
-   bottom), so the header's padding is smaller than it looks. */
-.home-top { display: flex; justify-content: center; padding: 4px 16px 8px; }
-.home-logo { width: 220px; height: auto; display: block; }
-
 /* ---- hero ----------------------------------------------------------------- */
 .home-hero {
   max-width: 1240px;
@@ -102,15 +96,22 @@
 .pause svg { width: 12px; height: 12px; fill: currentColor; }
 
 /* ---- the composer ------------------------------------------------------- */
+/* The glow (Matthew, 10/10) marks the composer as the thing to use: a tight
+   white halo for the edge, a wide soft one for the light, both stronger while
+   the field has focus. */
 .composer {
   background: var(--bg-section);
-  border: 1px solid var(--line);
+  border: 1px solid #3b3835;   /* lighter than --line, so the edge holds against the glow */
   border-radius: 14px;
   padding: 8px 8px 8px 20px;
   display: flex; align-items: center; gap: 12px;
-  transition: border-color .15s;
+  box-shadow: 0 0 24px rgba(255, 255, 255, .24), 0 0 90px rgba(255, 255, 255, .16);
+  transition: border-color .15s, box-shadow .25s;
 }
-.composer:focus-within { border-color: var(--brown-light); }
+.composer:focus-within {
+  border-color: var(--brown-light);
+  box-shadow: 0 0 28px rgba(255, 255, 255, .34), 0 0 100px rgba(255, 255, 255, .22);
+}
 .composer label { font-size: 17px; white-space: nowrap; color: var(--cream); }
 .field { position: relative; flex: 1; min-width: 0; }
 .field input {
@@ -217,21 +218,25 @@
 .bar-in {
   position: relative; max-width: 1160px; margin: 0 auto; height: 60px; padding: 0 32px;
   display: flex; align-items: center; gap: 28px;
+  --group-gap: 48px;   /* mark to links while they sit together at the top */
 }
 .home .bar-mark {
   display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--cream);
-  opacity: 0; transition: opacity .2s ease; pointer-events: none;
 }
-.bar.scrolled .bar-mark { opacity: 1; pointer-events: auto; }
-.bar-mark svg { width: 26px; height: 26px; }
-.bar-mark span { font-family: 'Libre Baskerville', Georgia, serif; font-size: 17px; }
-/* At the top, the links sit centred; --center-shift (set in home.js) is the
-   distance from their resting right-hand centre to the bar's centre. */
+.bar-mark svg { width: 30px; height: 30px; }
+.bar-mark span { font-family: 'Libre Baskerville', Georgia, serif; font-size: 19px; }
+/* At rest the mark is at the left edge and the links at the right. At the top
+   of the page they are moved together to the centre: --mark-shift and
+   --right-shift (set in home.js) are the distances each has to travel. */
 .bar-right {
   margin-left: auto; display: flex; align-items: center; gap: 28px;
-  transition: transform .35s cubic-bezier(.2, .7, .2, 1);
 }
-.bar:not(.scrolled) .bar-right { transform: translateX(var(--center-shift, 0px)); }
+.bar:not(.scrolled) .bar-mark  { transform: translateX(var(--mark-shift, 0px)); }
+.bar:not(.scrolled) .bar-right { transform: translateX(var(--right-shift, 0px)); }
+/* Not before home.js has measured, or the first paint would show them apart
+   and then slide them together. Where scripting is off they just stay apart. */
+.bar.ready .bar-mark, .bar.ready .bar-right { transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
+@media (scripting: enabled) { .bar:not(.ready) .bar-in { visibility: hidden; } }
 .bar nav { display: flex; gap: 26px; }
 .home .bar nav a { font-size: 14.5px; color: var(--text-secondary); text-decoration: none; }
 .home .bar nav a:hover { color: var(--cream); }
@@ -239,7 +244,7 @@
   font-size: 14px; font-weight: 600; text-decoration: none; padding: 8px 16px; border-radius: 999px;
   background: var(--cream); color: var(--bg-dark);
 }
-@media (prefers-reduced-motion: reduce) { .bar-right, .bar, .bar-mark { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .bar.ready .bar-right, .bar.ready .bar-mark, .bar { transition: none; } }
 
 /* ---- the footer -------------------------------------------------------------- */
 .foot { border-top: 1px solid #1f1d1b; margin-top: 24px; }
@@ -351,11 +356,10 @@
 
 /* ---- narrow screens --------------------------------------------------- */
 @media (max-width: 900px) {
-  .home-logo { width: 180px; }
   .bar-in { padding: 0 16px; gap: 16px; }
   .bar nav { display: none; }
   .bar-right { gap: 0; }
-  .bar:not(.scrolled) .bar-right { transform: none; }
+  .bar:not(.scrolled) .bar-mark, .bar:not(.scrolled) .bar-right { transform: none; }
   .foot-in { grid-template-columns: 1fr 1fr; padding: 40px 16px 32px; }
   .foot-brand { grid-column: 1 / -1; }
   .foot-base { padding: 0 16px 32px; }

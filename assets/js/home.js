@@ -14,23 +14,43 @@
   try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   /* ---- the top bar ------------------------------------------------------------ */
-  // Always visible. 'scrolled' once the big logo has gone: the small mark shows
-  // and the links slide from the centre to the right (the slide is CSS).
-  var bar = $('bar'), barGroup = $('bar-right'), bigLogo = document.querySelector('.home-top');
-  if (bar && barGroup && bigLogo) {
+  // Always visible. At the top of the page the mark and the links sit together
+  // in the centre; once the page scrolls ('scrolled') they slide apart, the
+  // mark to the left edge and the links to the right (the slide is CSS).
+  var bar = $('bar'), barGroup = $('bar-right'), barMark = bar && bar.querySelector('.bar-mark');
+  if (bar && barGroup && barMark) {
     var barInner = bar.querySelector('.bar-in');
     var onScroll = function () {
-      bar.classList.toggle('scrolled', window.scrollY > bigLogo.offsetTop + bigLogo.offsetHeight - 60);
+      bar.classList.toggle('scrolled', window.scrollY > 24);
     };
+    // How far each half travels from its resting place to where the pair,
+    // taken as one block, is centred. offsetLeft ignores transforms, so this
+    // is the same number whether or not they are currently shifted.
     var measureBar = function () {
-      var shift = barInner.clientWidth / 2 - (barGroup.offsetLeft + barGroup.offsetWidth / 2);
-      bar.style.setProperty('--center-shift', Math.round(shift) + 'px');
+      var gap = parseFloat(getComputedStyle(barInner).getPropertyValue('--group-gap')) || 0;
+      var markW = barMark.offsetWidth, rightW = barGroup.offsetWidth;
+      var start = (barInner.clientWidth - (markW + gap + rightW)) / 2;
+      var markShift = Math.max(0, start - barMark.offsetLeft);
+      var rightShift = Math.min(0, start + markW + gap - barGroup.offsetLeft);
+      bar.style.setProperty('--mark-shift', Math.round(markShift) + 'px');
+      bar.style.setProperty('--right-shift', Math.round(rightShift) + 'px');
+      if (!bar.classList.contains('ready')) {
+        void barInner.offsetWidth;   // settle the shifts first, so only later changes animate
+        bar.classList.add('ready');
+      }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', measureBar);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureBar);
+    // The mark's width changes when its web font arrives, so watch the sizes
+    // rather than guess when that is.
+    if (window.ResizeObserver) {
+      var barWatch = new ResizeObserver(measureBar);
+      [barInner, barMark, barGroup].forEach(function (el) { barWatch.observe(el); });
+    } else {
+      window.addEventListener('resize', measureBar);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureBar);
+    }
+    onScroll();     // before the first measure: a page reloaded part way down must not animate
     measureBar();
-    onScroll();
   }
 
   /* ---- the games: stills that cycle every 4 s ---------------------------- */

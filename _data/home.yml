@@ -1,7 +1,7 @@
 # The homepage (index.html). Plan: modules/ai/docs/design/site_composer_handoff.md
 # in the engine repo, sections 5, 6 and 8.
 
-# The images under the mark. The line beneath them says "All games are real
+# The images under the top bar. The line beneath them says "All games are real
 # and playable", so every entry must be a game made in Aristotle with a
 # working `play` link. No asset-store scenes, no games a person built.
 showcase:

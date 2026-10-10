@@ -8,9 +8,10 @@ extra_js:
   - /assets/js/home.js
 ---
 {%- comment -%}
-  The homepage, as locked with Matthew on 9/27 over a local mockup: the mark;
-  the games (stills that cycle until the reel exists); "All games are real and
-  playable"; the composer; then the pitch and Download; then Latest.
+  The homepage, as locked with Matthew on 9/27 over a local mockup: the games
+  (stills that cycle until the reel exists); "All games are real and
+  playable"; the composer; then the pitch and Download; then Latest. The mark
+  lives in the top bar (changed 10/10).
   Plan: modules/ai/docs/design/site_composer_handoff.md in the engine repo.
   Content lives in _data/home.yml.
 {%- endcomment -%}
@@ -20,10 +21,10 @@ extra_js:
 <div class="home">
 
 {%- comment -%}
-  The top bar (Matthew, 9/27). Always visible: it holds Download, the page's
-  main action. At the top of the page its links sit centred above the big
-  logo; once the logo scrolls away they slide right and the small mark
-  appears on the left, so the logo is never shown twice. assets/js/home.js.
+  The top bar (Matthew, 9/27). Always visible: it holds the mark and Download,
+  the page's main action. At the top of the page the mark and the links sit
+  together, centred; once the page scrolls they slide apart, the mark to the
+  left edge and the links to the right. assets/js/home.js.
 {%- endcomment %}
 <div class="bar" id="bar">
   <div class="bar-in">
@@ -43,10 +44,6 @@ extra_js:
     </div>
   </div>
 </div>
-
-<header class="home-top">
-  <img class="home-logo" src="{{ '/assets/images/logo.svg' | relative_url }}" alt="Aristotle" width="220" height="151">
-</header>
 
 <main>
 <section class="home-hero">
