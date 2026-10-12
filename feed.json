@@ -1,0 +1,37 @@
+---
+layout: null
+permalink: /feed.json
+---
+{%- comment -%}
+  THE BLOG AS A FEED, in the standard JSON Feed 1.1 format (jsonfeed.org).
+
+  The Aristotle launcher's News column reads it, through the engine's Worker
+  (one request at launch, the "news" section). Feed readers can read it too.
+  Every post is in it. Writing the post is the whole publishing step.
+
+  The picture is the post's own `image:` front matter when it has one, else
+  the one the homepage's "Latest" row uses (_data/home.yml, thumbnails). A post
+  with neither has no picture, and the launcher shows the mark instead.
+  Engine side: modules/ai/docs/design/home_tab.md, section 3.
+{%- endcomment -%}
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": {{ site.title | jsonify }},
+  "home_page_url": {{ "/" | absolute_url | jsonify }},
+  "feed_url": {{ "/feed.json" | absolute_url | jsonify }},
+  "items": [
+    {%- for post in site.posts limit: 20 %}
+    {%- assign image = post.image | default: site.data.home.thumbnails[post.url] %}
+    {
+      "id": {{ post.url | absolute_url | jsonify }},
+      "url": {{ post.url | absolute_url | jsonify }},
+      "title": {{ post.title | jsonify }},
+      "summary": {{ post.excerpt | strip_html | normalize_whitespace | truncatewords: 40 | jsonify }},
+      {%- if image %}
+      "image": {{ image | absolute_url | jsonify }},
+      {%- endif %}
+      "date_published": {{ post.date | date_to_xmlschema | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ]
+}
