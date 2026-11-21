@@ -8,10 +8,12 @@ extra_js:
   - /assets/js/home.js
 ---
 {%- comment -%}
-  The homepage, as locked with Matthew on 9/27 over a local mockup: the games
-  (stills that cycle until the reel exists); "All games are real and
-  playable"; the composer; then the pitch and Download; then Latest. The mark
-  lives in the top bar (changed 10/10).
+  The homepage, as locked with Matthew on 9/27 over a local mockup: the reel
+  (a looping video with no caption, since 11/21; it was cycling game stills);
+  the composer; then the pitch and Download; then Latest. The line "All games
+  are real and playable" went with the caption; the library's rule (every card
+  has a working Play link) still holds. The mark lives in the top bar (changed
+  10/10).
   Plan: modules/ai/docs/design/site_composer_handoff.md in the engine repo.
   Content lives in _data/home.yml.
 {%- endcomment -%}
@@ -48,20 +50,20 @@ extra_js:
 <main>
 <section class="home-hero">
   <div class="media">
-    <div class="show" id="show" aria-roledescription="carousel" aria-label="Games made in Aristotle">
-      {%- for game in home.showcase %}
-      <img src="{{ game.image | relative_url }}" alt="{{ game.alt | escape }}"
-           data-title="{{ game.title | escape }}" data-meta="Made in Aristotle with {{ game.made_with | escape }}"
-           data-play="{{ game.play | relative_url }}"{% if forloop.first %} class="on"{% else %} loading="lazy"{% endif %}>
-      {%- endfor %}
+    {%- comment -%}
+      The reel (Matthew, 11/21): three short scenes, one looping video, in place
+      of the cycling stills and the line beneath them. No caption. Silent, so it
+      may start by itself; the button pauses it (WCAG 2.2.2). The source clips
+      are 4 s of the golem, a flight through an asteroid field and a rainy city
+      road, joined and cut to 1280 x 720 at 30 fps, no sound.
+    {%- endcomment %}
+    <div class="show" id="show">
+      <video id="reel" src="{{ '/assets/video/reel.mp4' | relative_url }}" poster="{{ '/assets/video/reel-poster.jpg' | relative_url }}"
+             autoplay muted loop playsinline preload="auto"
+             aria-label="Three 3D scenes: a stone golem on a mountain, a flight through an asteroid field, and a rainy city street"></video>
       <button class="pause" id="pause" type="button" aria-label="Pause">
         <svg viewBox="0 0 12 12" id="pause-icon" aria-hidden="true"><rect x="1.5" y="1" width="3" height="10" rx=".6"/><rect x="7.5" y="1" width="3" height="10" rx=".6"/></svg>
       </button>
-    </div>
-    {%- assign first = home.showcase | first %}
-    <div class="below">
-      <span><a class="cap-title" id="cap-title" href="{{ first.play | relative_url }}">{{ first.title }}</a> &middot; <span id="cap-meta">Made in Aristotle with {{ first.made_with }}</span></span>
-      <span>All games are real and playable.</span>
     </div>
   </div>
 

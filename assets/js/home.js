@@ -1,4 +1,4 @@
-/* The homepage: cycling game images, the composer's typed examples, and the
+/* The homepage: the looping reel, the composer's typed examples, and the
    invite-only reply that saves a visitor's idea to the waitlist.
    Plan: modules/ai/docs/design/site_composer_handoff.md in the engine repo.
    The Worker side is modules/ai/backend/worker/src/waitlist.js. */
@@ -53,25 +53,20 @@
     measureBar();
   }
 
-  /* ---- the games: stills that cycle every 4 s ---------------------------- */
-  var imgs = document.querySelectorAll('#show img');
-  var i = 0, timer = null, paused = reduce;
+  /* ---- the reel: three short scenes in one looping, silent video ---------- */
+  var reel = $('reel');
+  var paused = reduce;
   var PLAY = '<path d="M3 1.5v9l7.5-4.5z"/>';
   var PAUSE = '<rect x="1.5" y="1" width="3" height="10" rx=".6"/><rect x="7.5" y="1" width="3" height="10" rx=".6"/>';
 
-  function showGame(n) {
-    if (!imgs.length) return;
-    imgs[i].classList.remove('on');
-    i = (n + imgs.length) % imgs.length;
-    var img = imgs[i];
-    img.classList.add('on');
-    var title = $('cap-title');
-    title.textContent = img.getAttribute('data-title');
-    title.href = img.getAttribute('data-play');
-    $('cap-meta').textContent = img.getAttribute('data-meta');
+  // A browser may refuse to start a video on its own (data saver, low power):
+  // the poster then stays, which is the first frame of the reel.
+  function startShow() {
+    if (!reel) return;
+    var p = reel.play();
+    if (p && p.catch) p.catch(function () {});
   }
-  function startShow() { stopShow(); if (imgs.length > 1) timer = setInterval(function () { showGame(i + 1); }, 4000); }
-  function stopShow() { if (timer) clearInterval(timer); timer = null; }
+  function stopShow() { if (reel) reel.pause(); }
 
   /* ---- the composer's typed examples ------------------------------------- */
   var input = $('idea'), ghost = $('ghost'), send = $('send');
